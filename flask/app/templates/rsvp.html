@@ -1,0 +1,51 @@
+
+<h2 class="major">RSVP</h2>
+<section class="form-section">
+    <form hx-post="/rsvp" hx-target="#RSVP">
+        {% if 'form' in  validation_errors %}
+            <div class="validation-errors">
+                <p>{{ validation_errors['form'] }}</p>
+            </div>
+        {% endif %}
+        <div class="fields">
+            <div class="field">
+                <div id="people-container" class="field people-fields">
+                    {% for key, person in people.items() %}
+                        {% with
+                            id=person['id'],
+                            first_name=person['firstname'],
+                            last_name=person['lastname'],
+                            drink=person['drink'],
+                            first=(loop.index0==0),
+                            index=loop.index0,
+                            validation_errors=person['validation_errors']
+                        %}
+                            {% include 'person.html' %}
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="field people-buttons">
+                <button type="submit" id="add-person" hx-get="/rsvp_add_person" hx-swap="beforeend" hx-target="#people-container" class="small">Add Guest<span class="icon fa-user"></span>+</button>
+                <button id="remove-person" class="small">Remove Guest<span class="icon fa-user"></span>-</button>
+            </div>
+            <div class="field">
+                <label for="tel">Phone Number</label>
+                <input autocomplete="tel" type="tel" name="tel" id="tel" value="" placeholder="204-123-4567" />
+                {% if 'tel' in  validation_errors %}
+                    <div class="validation-errors">
+                        <p>{{ validation_errors['tel'] }}</p>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="field">
+                <label for="message">Message</label>
+                <textarea name="message" id="message" placeholder="Enter your message" rows="6"></textarea>
+            </div>
+        </div>
+        <ul class="actions">
+            <li><input type="submit" value="RSVP" class="primary" /></li>
+        </ul>
+    </form>
+</section>

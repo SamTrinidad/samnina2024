@@ -1,0 +1,31 @@
+<div id="person-{{ id }}" class="field person">
+    <div>
+        <input type="hidden" name="person[{{ id }}][id]" value="{{ id }}">
+        {% if first %}<label for="fname-{{ id }}">First</label>{% endif %}
+        <input id="fname-{{ id }}" type="text" name="person[{{ id }}][firstname]" placeholder="First Name" value="{{ first_name }}">
+        {% if 'firstname' in  validation_errors %}
+            <div class="validation-errors">
+                <p>{{ validation_errors['firstname'] }}</p>
+            </div>
+        {% endif %}
+    </div>
+    <div>
+        {% if first %}<label for="lname-{{ id }}">Last</label>{% endif %}
+        <input id="lname-{{ id }}" type="text" name="person[{{ id }}][lastname]" placeholder="Last Name {% if first==False %}(Optional){% endif %}" value="{{ last_name }}">
+        {% if 'lastname' in  validation_errors %}
+            <div class="validation-errors">
+                <p>{{ validation_errors['lastname'] }}</p>
+            </div>
+        {% endif %}
+    </div>
+    <div>
+        {% if first %}<label for="drink-{{ id }}">Alcohol?</label>{% endif %}
+        <label class="form-control">
+            <input id="drink-{{ id }}" type="checkbox" name="person[{{ id }}][drink]" {% if drink==True %}checked{% endif %}>
+            <span>Yes</span>
+        </label>
+    </div>
+</div>
+
+
+

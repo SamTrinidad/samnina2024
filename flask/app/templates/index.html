@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+{% block content %}
+<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="logo">
+					<span class="icon fa-heart"></span>
+				</div>
+				<div class="content">
+					<div class="inner">
+						<h1 class="brush">Jenina & Sam</h1>
+						<p>A Wedding Celebration</p>
+
+						<div class="details">
+							<p>Saturday September 14, 2024</p>
+							<p>Marigold Inkster</p>
+							<p>7pm - Midnight</p>
+						</div>
+						<p id="timer"></p>
+					</div>
+				</div>
+				<nav>
+					<ul>
+						<li><a hx-get="/rsvp" hx-target="#RSVP" href="#RSVP">RSVP</a></li>
+						<li><a href="#place">Place</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<div id="main">
+
+					<article id="RSVP">
+					</article>
+					<article id="place">
+						<iframe
+						width="100%"
+						height="450"
+						style="border:0"
+						loading="lazy"
+						allowfullscreen
+						referrerpolicy="no-referrer-when-downgrade"
+						src="https://www.google.com/maps/embed/v1/place?key={{ API_KEY }}
+							&q=Marigold+Restaurant,Winnipeg">
+						</iframe>
+					</article>
+
+			</div>
+		<!-- Footer -->
+			<footer id="footer">
+				#samnina2024
+			</footer>
+	</div>
+
+<!-- BG -->
+	<div id="bg" class="pre-loaded"></div>
+
+
+{% endblock %}
