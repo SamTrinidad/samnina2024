@@ -7,7 +7,13 @@ routes = Blueprint('routes', __name__)
 
 @routes.route('/')
 def index():
-    return render_template('index.html', API_KEY=os.getenv('GOOGLE_API_KEY'))
+    return render_template('index.html',
+                           API_KEY=os.getenv('GOOGLE_API_KEY'),
+                           DETAIL1=os.getenv('DETAIL1'),
+                           DETAIL2=os.getenv('DETAIL2'),
+                           DETAIL3=os.getenv('DETAIL3'),
+                           DETAIL4=os.getenv('DETAIL4'),
+                           DETAIL5=os.getenv('DETAIL5'))
 
 @routes.route('/rsvp', methods=['GET', 'POST'])
 def rsvp():
