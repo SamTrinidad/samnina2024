@@ -53,10 +53,12 @@
 				'transform #{_duration(article)} ease-in-out',
 				'filter #{_duration(article)} ease-in-out'
 			));
-			background-image:		url('../../images/bg1.jpg');
-			background-position:	center top;
-			background-size:		cover;
-			background-repeat:		no-repeat;
+			background: url('../../images/t3.jpg') no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+			background-position: center;
 			z-index: 1;
 		}
 
@@ -68,9 +70,41 @@
 		}
 
 		body.is-preload {
-			background-image:		url('../../images/bg1.jpg');
-			background-position:	center top;
-			background-size:		cover;
-			background-repeat:		no-repeat;
+			background: url('../../images/t3.jp4') no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+			background-position: center;
+		}
+		@include breakpoint('<small') {
+			&:after {
+				background-attachment: scroll;
+			}
+		}
+		@include breakpoint('<=xsmall') {
+			&:after {
+				@include vendor('transform', 'scale(1.125)');
+				@include vendor('transition', (
+					'transform #{_duration(article)} ease-in-out',
+					'filter #{_duration(article)} ease-in-out'
+				));
+				background: url('../../images/t7.jpg') no-repeat center center fixed;
+				-webkit-background-size: cover;
+				-moz-background-size: cover;
+				-o-background-size: cover;
+				background-size: cover;
+				background-position: center bottom;
+				z-index: 1;
+			}
+
+			body.is-preload {
+				background: url('../../images/t7.jp4') no-repeat center center fixed;
+				-webkit-background-size: cover;
+				-moz-background-size: cover;
+				-o-background-size: cover;
+				background-size: cover;
+				background-position: center bottom;
+			}
 		}
 	}
