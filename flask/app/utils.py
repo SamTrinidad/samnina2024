@@ -57,8 +57,7 @@ def process_rsvp(form):
     rsvp_entry = {
         'id': str(uuid.uuid4()),
         'people': len(people),
-        'tel': post['tel'],
-        'message': post['message'],
+        'tel': post['tel']
     }
     i = 1
     alcohol_count = 0
