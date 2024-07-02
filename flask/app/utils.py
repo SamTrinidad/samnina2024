@@ -5,13 +5,14 @@ import time
 from app.models import DynamoDBModel
 from flask import render_template, request
 import uuid
+from typing import Dict, List
+from uuid import uuid4
 
-
-def process_rsvp(form):
-    people = {}
-    validation_errors = {}
-    first_person_id = None
-    attributes = ['firstname', 'lastname', 'drink', 'id']
+def process_rsvp(form: Dict[str, str]) -> None:
+    people: Dict[str, Dict[str, str]] = {}
+    validation_errors: List[str] = []
+    first_person_id: str = None
+    attributes: List[str] = ['firstname', 'lastname', 'drink', 'id']
 
     for key in form:
         if key.startswith('person['):
@@ -25,44 +26,42 @@ def process_rsvp(form):
                 first_person_id = person_id
             if person_id not in people:
                 people[person_id] = {
-                    'validation_errors': {},
+                    'validation_errors': [],
                     'firstname': '',
                     'lastname': '',
-                    'drink': True,
+                    'drink': False,
                 }
 
             if attribute == 'drink':
-                # Convert 'on' or 'off' to True or False
-                people[person_id][attribute] = request.form[key] == 'on'
+                people[person_id][attribute] = request.form.get(key) == 'on'
             else:
-                # Check if it is Alphabetical
-                if not re.match(r"^[A-Za-z]+$", request.form[key]):
-                    people[person_id]['validation_errors'][attribute] = "Must be alphabetical."
+                if not request.form[key].isalpha():
+                    people[person_id]['validation_errors'].append(f"{attribute} must be alphabetical.")
                 people[person_id][attribute] = request.form[key]
 
             if attribute == 'firstname' and people[person_id][attribute] == '':
-                people[person_id]['validation_errors'][attribute] = "First name is required."
+                people[person_id]['validation_errors'].append("First name is required.")
 
     post = form.to_dict()
 
     if not people[first_person_id]['lastname'] or people[first_person_id]['lastname'] == '':
-        people[first_person_id]['validation_errors']['lastname'] = "Last name is required for first person."
+        people[first_person_id]['validation_errors'].append("Last name is required for first person.")
 
     if not post['tel'] or post['tel'] == '':
-        validation_errors['tel'] = "Phone number is required."
+        validation_errors.append("Phone number is required.")
 
     if validation_errors:
         return render_template('rsvp.html', validation_errors=validation_errors, people=people)
 
-    rsvp_entry = {
-        'id': str(uuid.uuid4()),
-        'people': len(people),
-        'tel': post['tel']
-    }
+    rsvp_entry = dict(
+        id=uuid4().hex,
+        people=len(people),
+        tel=post['tel']
+    )
     i = 1
     alcohol_count = 0
     for person_id, person in people.items():
-        rsvp_entry['person' + str(i)] = {
+        rsvp_entry[f'person{i}'] = {
             'firstname': person['firstname'],
             'lastname': person['lastname'],
             'drink': person['drink'],
